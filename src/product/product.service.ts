@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Product } from './product.entity';
@@ -16,5 +16,24 @@ export class ProductService {
 
   async findAll(): Promise<Product[]> {
     return this.productRepository.find();
+  }
+
+  async isProductValidForPayment(productId: number): Promise<boolean> {
+    try {
+      const product = await this.productRepository.findOneOrFail({ where: { id: productId } });
+
+      
+      const currentDate = new Date();
+      if (product.expiryDate < currentDate) {
+        return false; 
+      }
+
+      return true; 
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        return false;
+      }
+      throw error; 
+    }
   }
 }
