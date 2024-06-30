@@ -1,73 +1,85 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+Configuração e Execução do Projeto de Controle de Estoque (Backend)
+Este tutorial guiará você passo a passo na configuração e execução do projeto de Controle de Estoque, focado apenas no backend, tanto via terminal quanto via Docker. Siga atentamente cada etapa para garantir que tudo funcione corretamente.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Pré-requisitos
+Antes de começar, certifique-se de ter os seguintes softwares instalados no seu sistema:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Node.js (versão 14 ou superior)
+npm
+PostgreSQL
+Docker
+Git
+Clonando o Repositório
+Clone o repositório para a sua máquina local:
+bash
+Copiar código
+git clone https://github.com/HigoRafael/controle-estoque.git
+cd controle-estoque
+Configuração e Execução via Terminal
+Backend (NestJS)
+Navegue até o diretório do backend:
+bash
+Copiar código
+cd backend
+Instale as dependências do projeto:
+bash
+Copiar código
+npm install
+Configure o banco de dados PostgreSQL:
 
-## Description
+Crie um banco de dados no PostgreSQL. Anote o nome do banco, usuário e senha.
+Atualize o arquivo ormconfig.json com as informações do seu banco de dados:
+json
+Copiar código
+{
+  "type": "postgres",
+  "host": "localhost",
+  "port": 5432,
+  "username": "seu_usuario",
+  "password": "sua_senha",
+  "database": "seu_banco_de_dados",
+  "entities": ["dist/**/*.entity.js"],
+  "synchronize": true
+}
+Crie um arquivo .env na raiz do projeto backend com as seguintes variáveis de ambiente:
+plaintext
+Copiar código
+JWT_SECRET=uma_chave_secreta_forte
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=seu_usuario
+DB_PASSWORD=sua_senha
+DB_NAME=seu_banco_de_dados
+Execute o servidor de desenvolvimento:
+bash
+Copiar código
+npm run start:dev
+Configuração e Execução via Docker
+Passo 1: Configurar as Variáveis de Ambiente
+Crie um arquivo .env na raiz do projeto com as seguintes variáveis de ambiente:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+plaintext
+Copiar código
+JWT_SECRET=uma_chave_secreta_forte
+DB_HOST=host.docker.internal
+DB_PORT=5432
+DB_USERNAME=seu_usuario
+DB_PASSWORD=sua_senha
+DB_NAME=seu_banco_de_dados
+Passo 2: Construir e Executar os Contêineres
+Certifique-se de estar no diretório raiz do projeto (onde está o arquivo docker-compose.yml):
+bash
+Copiar código
+cd controle-estoque
+Construa e execute os contêineres:
+bash
+Copiar código
+docker-compose up --build
+Passo 3: Verificar Logs
+Você pode verificar os logs do contêiner da aplicação para garantir que tudo está funcionando corretamente:
 
-## Installation
-
-```bash
-$ npm install
-```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+bash
+Copiar código
+docker-compose logs app
+Conclusão
+Agora você deve ter o backend do projeto de Controle de Estoque rodando em sua máquina local. Seja via terminal ou via Docker, siga os passos cuidadosamente para garantir que tudo funcione sem problemas. Se encontrar algum erro, verifique os logs para obter mais detalhes e corrigir qualquer problema de configuração.
